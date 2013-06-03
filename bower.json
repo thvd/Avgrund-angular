@@ -1,0 +1,12 @@
+{
+  "name": "Avgrund-angular",
+  "version": "0.0.0",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "components"
+  ],
+  "dependencies": {
+    "angular": "~1.0.7"
+  }
+}
