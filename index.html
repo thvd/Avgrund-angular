@@ -22,7 +22,7 @@
 
         <div ng-controller="showCaseCtrl">
 
-            <button ng-click="modalIsVisible = true"> Show </button>
+            <button ng-click="showModal()"> Show </button>
 
             <avgrund ng-show="modalIsVisible">
 
@@ -33,7 +33,7 @@
                 <p>
                     If you like this you would probably enjoy <a href="http://lab.hakim.se/meny">Meny</a>, <a href="http://lab.hakim.se/reveal-js">reveal.js</a> and <a href="http://lab.hakim.se/scroll-effects">stroll.js</a>.
                 </p>
-                <button ng-click="modalIsVisible = false"> Close </button>
+                <button ng-click="hideModal()"> Close </button>
 
             </avgrund>
 

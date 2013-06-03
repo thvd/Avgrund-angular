@@ -6,6 +6,12 @@ angular.module('showcaseAvgrund').controller('showCaseCtrl', function($scope) {
 
     $scope.modalIsVisible = false;
 
+    $scope.hideModal = function() {
+        $scope.modalIsVisible = false;
+    };
 
+    $scope.showModal = function() {
+        $scope.modalIsVisible = true;
+    };
 
 });
