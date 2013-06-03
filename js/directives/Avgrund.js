@@ -3,7 +3,7 @@
 angular.module('ui.avgrund', []);
 angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout) {
     return {
-        template: '<div class="avgrund-popup" ng-class="{  }" ng-transclude></div>',
+        template: '<div class="avgrund-popup" ng-class="{ \'avgrund-popup-animate\': ngShow }" ng-transclude></div>',
         restrict: 'E',
         transclude: true,
         replace: true,
@@ -65,7 +65,7 @@ angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout)
                 }
             }
 
-            function activate(state) {
+            function activate() {
                 $document.bind('keyup', onDocumentKeyUp, false);
                 $document.bind('click', onDocumentClick, false);
                 $document.bind('touchstart', onDocumentClick, false);
@@ -84,14 +84,12 @@ angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout)
                 $document.unbind('touchstart', onDocumentClick, false);
 
                 container.removeClass('avgrund-active');
-                element.removeClass('avgrund-popup-animate');
             }
 
             scope.$watch('ngShow', function update(newValue, oldValue) {
                 console.log('scope.$watch(ngShow)', newValue, oldValue);
                 if (newValue) {
                     // show;
-                    element.addClass('avgrund-popup-animate');
                     activate();
                     console.log('activate();');
                 } else if (!oldValue && !newValue) {
