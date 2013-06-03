@@ -1,9 +1,9 @@
 'use strict';
 
 angular.module('ui.avgrund', []);
-angular.module('ui.avgrund').directive('avgrund', function ($document) {
+angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout) {
     return {
-        template: '<div class="avgrund-popup" ng-transclude></div>',
+        template: '<div class="avgrund-popup" ng-class="{  }" ng-transclude></div>',
         restrict: 'E',
         transclude: true,
         replace: true,
@@ -17,8 +17,6 @@ angular.module('ui.avgrund').directive('avgrund', function ($document) {
          */
         link: function postLink(scope, element, attrs) {
             console.log(scope, element, attrs);
-
-            var currentState = null;
 
             /**
              * @type {Node}
@@ -48,16 +46,22 @@ angular.module('ui.avgrund').directive('avgrund', function ($document) {
 
 
             function onDocumentKeyUp(event) {
-                var ESCAPE_KEY_CODE = 27
+                var ESCAPE_KEY_CODE = 27;
                 if (event.keyCode === ESCAPE_KEY_CODE) {
-                    deactivate();
+                    scope.$apply(function() {
+                        deactivate();
+                        scope.ngShow = false;
+                    });
                 }
             }
 
             // Deactivate on click outside
             function onDocumentClick(event) {
-                if (event.target === cover) {
-                    deactivate();
+                if (event.target === _cover) {
+                    scope.$apply(function() {
+                        deactivate();
+                        scope.ngShow = false;
+                    });
                 }
             }
 
@@ -66,24 +70,18 @@ angular.module('ui.avgrund').directive('avgrund', function ($document) {
                 $document.bind('click', onDocumentClick, false);
                 $document.bind('touchstart', onDocumentClick, false);
 
-                element.removeClass(currentState);
                 element.addClass('no-transition');
-                element.addClass(state);
 
-                setTimeout(function () {
-                    scope.$apply(function () {
-                        element.removeClass('no-transition');
-                        container.addClass('avgrund-active');
-                    });
+                $timeout(function () {
+                    element.removeClass('no-transition');
+                    container.addClass('avgrund-active');
                 }, 0);
-
-                currentState = state;
             }
 
             function deactivate() {
-                $document.bind('keyup', onDocumentKeyUp, false);
-                $document.bind('click', onDocumentClick, false);
-                $document.bind('touchstart', onDocumentClick, false);
+                $document.unbind('keyup', onDocumentKeyUp, false);
+                $document.unbind('click', onDocumentClick, false);
+                $document.unbind('touchstart', onDocumentClick, false);
 
                 container.removeClass('avgrund-active');
                 element.removeClass('avgrund-popup-animate');
@@ -95,9 +93,14 @@ angular.module('ui.avgrund').directive('avgrund', function ($document) {
                     // show;
                     element.addClass('avgrund-popup-animate');
                     activate();
+                    console.log('activate();');
+                } else if (!oldValue && !newValue) {
+                    // do nothing, no change;
+                    console.info('do nothing, no change;');
                 } else {
-                    // hide;
+                    // hide = deactivate();
                     deactivate();
+                    console.info('deactivate();');
                 }
             });
 
