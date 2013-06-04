@@ -3,12 +3,13 @@
 angular.module('ui.avgrund', []);
 angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout) {
     return {
-        template: '<div class="avgrund-popup" ng-class="{ \'avgrund-popup-animate\': ngShow }" ng-transclude></div>',
+        template: '<div class="avgrund-popup" ng-class="{ \'avgrund-popup-animate\': visible }" ng-transclude></div>',
         restrict: 'E',
         transclude: true,
         replace: true,
         scope: {
-            ngShow: '='
+            //ngShow: '='
+            visible: '='
         },
         /**
          * @param {angular.Scope} scope
@@ -50,7 +51,7 @@ angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout)
                 if (event.keyCode === ESCAPE_KEY_CODE) {
                     scope.$apply(function() {
                         deactivate();
-                        scope.ngShow = false;
+                        scope.visible = false;
                     });
                 }
             }
@@ -60,7 +61,7 @@ angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout)
                 if (event.target === _cover) {
                     scope.$apply(function() {
                         deactivate();
-                        scope.ngShow = false;
+                        scope.visible = false;
                     });
                 }
             }
@@ -86,7 +87,7 @@ angular.module('ui.avgrund').directive('avgrund', function ($document, $timeout)
                 container.removeClass('avgrund-active');
             }
 
-            scope.$watch('ngShow', function update(newValue, oldValue) {
+            scope.$watch('visible', function update(newValue, oldValue) {
                 console.log('scope.$watch(ngShow)', newValue, oldValue);
                 if (newValue) {
                     // show;
